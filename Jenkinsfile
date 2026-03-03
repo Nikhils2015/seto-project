@@ -22,13 +22,18 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main'
-                    credentialsId: 'git-creds',
-                    url: 'https://github.com/Nikhils2015/seto-project.git'
-            }
-        }
+stage('Checkout Code') {
+    steps {
+        checkout([
+            $class: 'GitSCM',
+            branches: [[name: '*/main']],
+            userRemoteConfigs: [[
+                url: 'https://github.com/Nikhils2015/seto-project.git',
+                credentialsId: 'git-creds'
+            ]]
+        ])
+    }
+}
 
         stage('Set Environment Variables') {
             steps {
@@ -117,4 +122,5 @@ pipeline {
         }
     }
 }
+
 
