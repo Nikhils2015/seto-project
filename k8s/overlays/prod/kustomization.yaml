@@ -1,0 +1,8 @@
+resources:
+  - ../../base
+  - ingress.yaml
+  - hpa.yaml
+
+namespace: prod
+
+namePrefix: prod-
