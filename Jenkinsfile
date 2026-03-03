@@ -24,7 +24,8 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'git-creds',
+                git branch: 'main'
+                    credentialsId: 'git-creds',
                     url: 'https://github.com/Nikhils2015/seto-project.git'
             }
         }
@@ -116,3 +117,4 @@ pipeline {
         }
     }
 }
+
