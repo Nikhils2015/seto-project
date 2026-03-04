@@ -50,7 +50,7 @@ stage('Checkout Code') {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${ECR_REPO}:${IMAGE_TAG}", "app/")
+                    docker.build("${ECR_REPO}:${IMAGE_TAG}", ".")
                 }
             }
         }
@@ -122,5 +122,6 @@ stage('Checkout Code') {
         }
     }
 }
+
 
 
