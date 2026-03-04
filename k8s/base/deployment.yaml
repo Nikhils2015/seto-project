@@ -4,14 +4,9 @@ metadata:
   name: demo-app
   labels:
     app: demo-app
+
 spec:
   replicas: 2
-
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
 
   selector:
     matchLabels:
@@ -21,57 +16,38 @@ spec:
     metadata:
       labels:
         app: demo-app
+
     spec:
       containers:
-     - name: backend
-       image: 447655430298.dkr.ecr.ap-south-1.amazonaws.com/seto-app-backend:latest
+        - name: demo-app
+          image: 447655430298.dkr.ecr.ap-south-1.amazonaws.com/seto-app-backend:latest
+          imagePullPolicy: IfNotPresent
 
-     ports:
-      - containerPort: 5000
+          ports:
+            - containerPort: 5000
 
-     env:
-  - name: DB_HOST
-      valueFrom:
-        secretKeyRef:
-        name: db-secret
-        key: DB_HOST
+          envFrom:
+            - secretRef:
+                name: db-secret
 
-  - name: DB_USER
-    valueFrom:
-      secretKeyRef:
-        name: db-secret
-        key: DB_USER
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 
-  - name: DB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: db-secret
-        key: DB_PASSWORD
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
 
-  - name: DB_NAME
-    valueFrom:
-      secretKeyRef:
-        name: db-secret
-        key: DB_NAME
-
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
-
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 20
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 20

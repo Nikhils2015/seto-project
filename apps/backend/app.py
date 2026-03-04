@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 import os
 import psycopg2
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
@@ -17,5 +17,5 @@ def home():
 def health():
     return "OK", 200
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
