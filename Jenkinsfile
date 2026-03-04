@@ -47,13 +47,14 @@ stage('Checkout Code') {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    docker.build("${ECR_REPO}:${IMAGE_TAG}", "apps/")
-                }
-            }
+        stage('Build Docker Images') {
+             steps {
+                 script {
+                   docker.build("${ECR_REPO}-backend:${IMAGE_TAG}", "apps/backend/")
+                   docker.build("${ECR_REPO}-frontend:${IMAGE_TAG}", "apps/frontend/")
         }
+    }
+}
 
         stage('Login to ECR') {
             steps {
@@ -122,6 +123,7 @@ stage('Checkout Code') {
         }
     }
 }
+
 
 
 
