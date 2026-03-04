@@ -38,7 +38,7 @@ stage('Checkout Code') {
         stage('Set Environment Variables') {
             steps {
                 script {
-                    ECR_REPO = "seto-app-${params.ENV}"
+                    ECR_REPO = "seto-${params.ENV}"
                     FULL_IMAGE = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
                     echo "Environment: ${params.ENV}"
                     echo "ECR Repo: ${ECR_REPO}"
@@ -126,6 +126,7 @@ stage('Checkout Code') {
         }
     }
 }
+
 
 
 
