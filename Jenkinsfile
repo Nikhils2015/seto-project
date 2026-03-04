@@ -66,14 +66,17 @@ stage('Checkout Code') {
             }
         }
 
-        stage('Push Image to ECR') {
-            steps {
+        stage('Push Images to ECR') {
+             steps {
                 sh """
-                docker tag ${ECR_REPO}:${IMAGE_TAG} ${FULL_IMAGE}
-                docker push ${FULL_IMAGE}
-                """
-            }
-        }
+               docker tag ${ECR_REPO}-backend:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}-backend:${IMAGE_TAG}
+               docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}-backend:${IMAGE_TAG}
+
+            docker tag ${ECR_REPO}-frontend:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}-frontend:${IMAGE_TAG}
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}-frontend:${IMAGE_TAG}
+             """
+ }
+}
 
         stage('Deploy to Dev/Stage') {
             when {
@@ -123,6 +126,7 @@ stage('Checkout Code') {
         }
     }
 }
+
 
 
 
