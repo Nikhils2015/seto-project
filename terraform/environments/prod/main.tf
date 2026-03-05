@@ -38,7 +38,7 @@ module "eks" {
   source = "../../modules/eks"
 
   environment      = var.environment
-  private_subnets  = module.vpc.private_subnets
+  subnet_ids       = module.vpc.private_subnets
   cluster_role_arn = module.iam.cluster_role_arn
   node_role_arn    = module.iam.node_role_arn
 
