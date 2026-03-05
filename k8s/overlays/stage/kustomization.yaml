@@ -6,6 +6,7 @@ resources:
   - ../../base
   - hpa.yaml
   - ingress.yaml
+  - secret.yaml
 
 namespace: stage
 namePrefix: stage-
